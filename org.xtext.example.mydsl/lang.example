@@ -1,0 +1,28 @@
+
+module this.is.my.module.path
+
+suite name_that_matchs_the_file using(multiple files path){
+
+	initialize using (multiple files){
+	
+	start browser ;
+	
+	navigate to "http://www.google.com" ;
+	
+	test case TC-S007 using (multiple files){
+	
+		fill textfiled_path "sd:google.search.string" 
+		
+		click search_button 
+		
+		validate GooglePage.firstHit contains "sd:google.first.hit"
+		
+	}
+	
+	test case TC-S008 using (multiple files){
+		
+	}
+	
+	}
+
+}

@@ -1,0 +1,81 @@
+grammar org.xtext.example.mydsl.MyDsl //with org.eclipse.xtext.common.Terminals //
+with org.eclipse.xtext.xbase.Xbase
+
+import "http://www.eclipse.org/xtext/common/JavaVMTypes" as jvmTypes
+//with org.eclipse.xtext.xbase.Xtype
+//import "http://www.eclipse.org/xtext/xbase/Xtype"
+generate myDsl "http://www.xtext.org/example/mydsl/MyDsl"
+
+Domainmodel:
+	moduleName=ModuleDeclaration
+	importSection=XImportSection?
+	suite=SuiteDeclaration;
+
+ModuleDeclaration:
+	'module' name=QualifiedName;
+
+ImportSection:
+	importDeclarations+=ImportDeclaration+;
+
+ImportDeclaration:
+	'import' importedType=QualifiedName ';';
+
+SuiteDeclaration:
+	'suite' name=ValidID ('using' '(' configFiles=Files ')')? '{'
+	(actions+=Action)?
+	prepare=PrepareDeclaraion
+	'}';
+
+PrepareDeclaraion:
+	'prepare' ('using' '(' configFiles=Files ')')? '{'
+	//	(actions+=Action)?
+	testCases+=TestDefinition
+	'}';
+
+TestDefinition:
+	"test" "case" name=ValidID ('using' '(' configFiles=Files ')')? '{'
+	actions+=(Action)+
+	'}';
+
+/*A list of comma separated files ending with xml, prop, or data */
+Files:
+	CONFIG_FILE ("," CONFIG_FILE)*;
+
+Action:
+	ActionType (component=ActionComponent)? ";"; //("with" data+=Data)? ";";
+//
+ActionType:
+//	type=JvmTypeReference;
+	type=[jvmTypes::JvmType|QualifiedName];
+
+ActionComponent:
+	component=JvmTypeReference;
+
+terminal CONFIG_FILE:
+	('a'..'z' | 'A'..'Z' | '_' | '0'..'9')* "." ("xml" | "properties" | "data");
+
+	//Data:
+//	(Reference | Value)*;
+//
+//Reference:
+//	NAMESPACE ":" Property;
+//
+//Property:
+//	QualifiedName;
+//
+//Value:
+//	Number | STRING;
+
+//terminal NAMESPACE:
+//	CHAR CHAR CHAR (CHAR | DIGIT);
+
+//terminal DIGIT:
+//	'0'..'9';
+//
+//terminal CHAR:
+//	('a'..'z');
+//
+//terminal NEWLINE: // New line on DOS or Unix 
+//	'\r'? '\n';
+
+    
