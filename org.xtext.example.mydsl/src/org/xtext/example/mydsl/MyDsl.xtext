@@ -1,9 +1,6 @@
-grammar org.xtext.example.mydsl.MyDsl //with org.eclipse.xtext.common.Terminals //
-with org.eclipse.xtext.xbase.Xbase
+grammar org.xtext.example.mydsl.MyDsl with org.eclipse.xtext.xbase.Xbase
 
 import "http://www.eclipse.org/xtext/common/JavaVMTypes" as jvmTypes
-//with org.eclipse.xtext.xbase.Xtype
-//import "http://www.eclipse.org/xtext/xbase/Xtype"
 generate myDsl "http://www.xtext.org/example/mydsl/MyDsl"
 
 Domainmodel:
@@ -14,21 +11,15 @@ Domainmodel:
 ModuleDeclaration:
 	'module' name=QualifiedName;
 
-ImportSection:
-	importDeclarations+=ImportDeclaration+;
-
-ImportDeclaration:
-	'import' importedType=QualifiedName ';';
-
 SuiteDeclaration:
 	'suite' name=ValidID ('using' '(' configFiles=Files ')')? '{'
-	(actions+=Action)?
+	(actions+=Action)*
 	prepare=PrepareDeclaraion
 	'}';
 
 PrepareDeclaraion:
 	'prepare' ('using' '(' configFiles=Files ')')? '{'
-	//	(actions+=Action)?
+	(actions+=Action)*
 	testCases+=TestDefinition
 	'}';
 
@@ -43,18 +34,17 @@ Files:
 
 Action:
 	ActionType (component=ActionComponent)? ";"; //("with" data+=Data)? ";";
-//
 ActionType:
-//	type=JvmTypeReference;
-	type=[jvmTypes::JvmType|QualifiedName];
-
+	type=JvmTypeReference;
 ActionComponent:
-	component=JvmTypeReference;
+	comp=JvmTypeReference;
 
 terminal CONFIG_FILE:
-	('a'..'z' | 'A'..'Z' | '_' | '0'..'9')* "." ("xml" | "properties" | "data");
+	(ID | INT) "." ("xml" | "properties" | "data");
+	
+//	('a'..'z' | 'A'..'Z' | '_' | '0'..'9')* "." ("xml" | "properties" | "data");
 
-	//Data:
+//Data:
 //	(Reference | Value)*;
 //
 //Reference:

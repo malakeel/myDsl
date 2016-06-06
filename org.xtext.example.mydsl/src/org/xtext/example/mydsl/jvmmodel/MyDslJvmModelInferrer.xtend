@@ -11,7 +11,7 @@ import org.xtext.example.mydsl.myDsl.Domainmodel
 
 /**
  * <p>Infers a JVM model from the source model.</p> 
- *
+ * 
  * <p>The JVM model should contain all elements that would appear in the Java code 
  * which is generated from the source model. Other models link against the JVM model rather than the source model.</p>     
  */
@@ -47,7 +47,6 @@ class MyDslJvmModelInferrer extends AbstractModelInferrer {
 	 */
 	def dispatch void infer(Domainmodel element, IJvmDeclaredTypeAcceptor acceptor, boolean isPreIndexingPhase) {
 		// Here you explain how your model is mapped to Java elements, by writing the actual translation code.
-		
 		// An implementation for the initial hello world example could look like this:
 // 		acceptor.accept(element.toClass("my.company.greeting.MyGreetings")) [
 // 			for (greeting : element.greetings) {

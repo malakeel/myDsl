@@ -14,12 +14,6 @@
     <genClasses ecoreClass="MyDsl.ecore#//ModuleDeclaration">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyDsl.ecore#//ModuleDeclaration/name"/>
     </genClasses>
-    <genClasses ecoreClass="MyDsl.ecore#//ImportSection">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//ImportSection/importDeclarations"/>
-    </genClasses>
-    <genClasses ecoreClass="MyDsl.ecore#//ImportDeclaration">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyDsl.ecore#//ImportDeclaration/importedType"/>
-    </genClasses>
     <genClasses ecoreClass="MyDsl.ecore#//SuiteDeclaration">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyDsl.ecore#//SuiteDeclaration/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyDsl.ecore#//SuiteDeclaration/configFiles"/>
@@ -28,6 +22,7 @@
     </genClasses>
     <genClasses ecoreClass="MyDsl.ecore#//PrepareDeclaraion">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyDsl.ecore#//PrepareDeclaraion/configFiles"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//PrepareDeclaraion/actions"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//PrepareDeclaraion/testCases"/>
     </genClasses>
     <genClasses ecoreClass="MyDsl.ecore#//TestDefinition">
@@ -38,10 +33,10 @@
     <genClasses ecoreClass="MyDsl.ecore#//Action"/>
     <genClasses ecoreClass="MyDsl.ecore#//ActionType">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//ActionType/component"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference MyDsl.ecore#//ActionType/type"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//ActionType/type"/>
     </genClasses>
     <genClasses ecoreClass="MyDsl.ecore#//ActionComponent">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//ActionComponent/component"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//ActionComponent/comp"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

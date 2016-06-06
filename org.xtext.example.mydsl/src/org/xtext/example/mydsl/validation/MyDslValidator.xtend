@@ -27,10 +27,8 @@ class MyDslValidator extends AbstractMyDslValidator {
 	@Check
 	def checkSuiteName(SuiteDeclaration suite) {
 		if (!Character.isUpperCase(suite.name.charAt(0))) {
-			warning('Name should start with a capital',   MyDslPackage.Literals.SUITE_DECLARATION__NAME, "jfjk")
+			warning("Suite name must be Capitalized", MyDslPackage.Literals.SUITE_DECLARATION__NAME, "issue 1")
 		}
 	}
-	
-	
 
 }

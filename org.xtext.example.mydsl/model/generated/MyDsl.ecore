@@ -12,13 +12,6 @@
   <eClassifiers xsi:type="ecore:EClass" name="ModuleDeclaration">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ImportSection">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="importDeclarations" upperBound="-1"
-        eType="#//ImportDeclaration" containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ImportDeclaration">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="importedType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SuiteDeclaration">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="configFiles" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -29,6 +22,8 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PrepareDeclaraion">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="configFiles" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actions" upperBound="-1"
+        eType="#//Action" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="testCases" upperBound="-1"
         eType="#//TestDefinition" containment="true"/>
   </eClassifiers>
@@ -42,10 +37,11 @@
   <eClassifiers xsi:type="ecore:EClass" name="ActionType" eSuperTypes="#//Action">
     <eStructuralFeatures xsi:type="ecore:EReference" name="component" eType="#//ActionComponent"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass platform:/resource/org.eclipse.xtext.common.types/model/JavaVMTypes.ecore#//JvmType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass platform:/resource/org.eclipse.xtext.common.types/model/JavaVMTypes.ecore#//JvmTypeReference"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActionComponent">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="component" eType="ecore:EClass platform:/resource/org.eclipse.xtext.common.types/model/JavaVMTypes.ecore#//JvmTypeReference"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="comp" eType="ecore:EClass platform:/resource/org.eclipse.xtext.common.types/model/JavaVMTypes.ecore#//JvmTypeReference"
         containment="true"/>
   </eClassifiers>
 </ecore:EPackage>
