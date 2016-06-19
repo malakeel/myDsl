@@ -25,8 +25,8 @@ class MyDslRuntimeModule extends AbstractMyDslRuntimeModule {
         return MyDslCompiler
     }
     
-    
     def Class<? extends XExpressionHelper> bindXExpressionHelper() {
         MyDslXExpressionHelper
     }
+    
 }
