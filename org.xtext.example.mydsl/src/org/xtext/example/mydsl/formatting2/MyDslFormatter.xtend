@@ -21,36 +21,33 @@ class MyDslFormatter extends XbaseFormatter {
 
 	@Inject extension MyDslGrammarAccess
 
-//	def dispatch void format(Domainmodel domainmodel, extension IFormattableDocument document) {
+	def dispatch void format(Domainmodel domainmodel, extension IFormattableDocument document) {
 //		domainmodel.getModuleName.format;
 //
 //		domainmodel.importSection.format;
 //
 //		domainmodel.getSuite.format;
+	}
+//	def dispatch void format(SuiteDeclaration suiteDeclaration, extension IFormattableDocument document) {
+//		suiteDeclaration.prepend[setNewLines(3)]
+////		suiteDeclaration.regionFor.keyword("{").prepend[space = ""] // .append[newLine]
+//		suiteDeclaration.actions.format
+//		suiteDeclaration.prepare.format
+//		suiteDeclaration.append[setNewLines(1)]
 //	}
-
-	def dispatch void format(SuiteDeclaration suiteDeclaration, extension IFormattableDocument document) {
-		suiteDeclaration.prepend[setNewLines(3)]
-//		suiteDeclaration.regionFor.keyword("{").prepend[space = ""] // .append[newLine]
-		suiteDeclaration.actions.format
-		suiteDeclaration.prepare.format
-		suiteDeclaration.append[setNewLines(1)]
-	}
-
 //
-	def dispatch void format(PrepareDeclaraion prepare, extension IFormattableDocument document) {
-		set(prepare.previousHiddenRegion, prepare.nextHiddenRegion)[indent]
-//		prepare.prepend[setNewLines(2)]
-//		prepare.prepend[newLine].prepend[newLine]
-//		for (TestDefinition test : prepare.testCases)
-//			test.format
-
-	}
+//	def dispatch void format(PrepareDeclaraion prepare, extension IFormattableDocument document) {
+//		set(prepare.previousHiddenRegion, prepare.nextHiddenRegion)[indent]
+////		prepare.prepend[setNewLines(2)]
+////		prepare.prepend[newLine].prepend[newLine]
+////		for (TestDefinition test : prepare.testCases)
+////			test.format
+//
+//	}
 //
 //	def dispatch void format(Action action, extension IFormattableDocument document) {
 //		set(action.previousHiddenRegion, action.nextHiddenRegion)[indent]
 //	}
-
 //	def dispatch void format(TestDefinition test, extension IFormattableDocument document) {
 //
 //		test.prepend[setNewLines(2)]

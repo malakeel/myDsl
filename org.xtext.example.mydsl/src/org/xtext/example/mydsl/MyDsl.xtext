@@ -1,70 +1,83 @@
-grammar org.xtext.example.mydsl.MyDsl with org.eclipse.xtext.xbase.Xbase
+grammar org.xtext.example.mydsl.MyDsl with
+//
+//org.eclipse.xtext.xbase.Xtype
+org.eclipse.xtext.xbase.Xbase
 
 import "http://www.eclipse.org/xtext/common/JavaVMTypes" as jvmTypes
+import "http://www.eclipse.org/xtext/xbase/Xbase" as xbase
+
+//import "http://www.eclipse.org/xtext/xbase/Xtype" as xtypes
+//import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+//
+//
 generate myDsl "http://www.xtext.org/example/mydsl/MyDsl"
 
 Domainmodel:
-	moduleName=ModuleDeclaration
-	importSection=XImportSection?
+//	moduleName=ModuleDeclaration
+	"package" name=QualifiedName ";" //
+	importSection=XImportSection? //
 	suite=SuiteDeclaration;
 
-ModuleDeclaration:
-	'module' name=QualifiedName;
-
 SuiteDeclaration:
-	'suite' name=ValidID ('using' '(' configFiles=Files ')')? '{'
-	(actions+=Action)*
-	prepare=PrepareDeclaraion
-	'}';
+	'suite' name=ValidID ('using' '(' configFiles=Files ')')? '{' handlers+=EventHandlerDefinition* beforeActions+=Action*
+	prepare=PrepareDeclaraion afterActions+=(Action)* '}';
 
 PrepareDeclaraion:
-	'prepare' ('using' '(' configFiles=Files ')')? '{'
-	(actions+=Action)*
-	testCases+=TestDefinition
-	'}';
+	'prepare' ('using' '(' configFiles=Files ')')? '{' handlers+=EventHandlerDefinition* beforeActions+=Action*
+	testCases+=TestDefinition+ afterActions+=Action* '}';
 
 TestDefinition:
-	"test" "case" name=ValidID ('using' '(' configFiles=Files ')')? '{'
-	actions+=(Action)+
-	'}';
+	"test" name=ValidID ('using' '(' configFiles=Files ')')? '{' actions+=(Action)+ '}';
 
-/*A list of comma separated files ending with xml, prop, or data */
+/*A list of comma separated files ending with xml, properties) */
 Files:
-	CONFIG_FILE ("," CONFIG_FILE)*;
+	files+=ConfigFile ("," files+=ConfigFile)*;
 
+ConfigFile:
+	file=FileName;
+
+FileName:
+	(ID | INT) "." ("xml" | "properties");
+	//	('a'..'z' | 'A'..'Z' | '_' | '0'..'9')* "." ("xml" | "properties" | "data");
+
+/* The documentation for the action */
 Action:
-	ActionType (component=ActionComponent)? ";"; //("with" data+=Data)? ";";
-ActionType:
-	type=JvmTypeReference;
-ActionComponent:
-	comp=JvmTypeReference;
+	type=JvmTypeReference config=ActionConfiguration ";";
 
-terminal CONFIG_FILE:
-	(ID | INT) "." ("xml" | "properties" | "data");
-	
-//	('a'..'z' | 'A'..'Z' | '_' | '0'..'9')* "." ("xml" | "properties" | "data");
+ActionConfiguration:
+	{ActionConfiguration} targets+=(UIElement)* (":" data+=Datum+)?;
 
-//Data:
-//	(Reference | Value)*;
-//
-//Reference:
-//	NAMESPACE ":" Property;
-//
-//Property:
-//	QualifiedName;
-//
-//Value:
-//	Number | STRING;
+UIElement: //; returns xbase::XExpression:
+	comp=(XMemberFeatureCall);
+//	{UIElement} content=XBlockExpression;
 
-//terminal NAMESPACE:
-//	CHAR CHAR CHAR (CHAR | DIGIT);
+Datum:
+	content=PropertyRef | Value;
 
-//terminal DIGIT:
-//	'0'..'9';
-//
-//terminal CHAR:
-//	('a'..'z');
-//
+PropertyRef:
+	NAMESPACE ":" QualifiedName;
+
+Value:
+	value=(Number | STRING);
+
+NAMESPACE:
+	CHAR CHAR CHAR (CHAR | DIGIT);
+
+EventHandlerDefinition:
+	"On" ConditionExpression Action ";";
+
+ConditionExpression:
+	ConditionCircuimstance;
+
+ConditionCircuimstance:
+	"blank";
+
+terminal DIGIT:
+	'0'..'9';
+
+terminal CHAR:
+	('a'..'z');
+	//
 //terminal NEWLINE: // New line on DOS or Unix 
 //	'\r'? '\n';
 

@@ -322,34 +322,6 @@
 			</command>
 		</menuContribution>
 	</extension>
-	<!-- quickfix marker resolution generator for org.xtext.example.mydsl.MyDsl -->
-	<extension
-			point="org.eclipse.ui.ide.markerResolution">
-		<markerResolutionGenerator
-			class="org.xtext.example.mydsl.ui.MyDslExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
-			markerType="org.xtext.example.mydsl.ui.mydsl.check.fast">
-			<attribute
-				name="FIXABLE_KEY"
-				value="true">
-			</attribute>
-		</markerResolutionGenerator>
-		<markerResolutionGenerator
-			class="org.xtext.example.mydsl.ui.MyDslExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
-			markerType="org.xtext.example.mydsl.ui.mydsl.check.normal">
-			<attribute
-				name="FIXABLE_KEY"
-				value="true">
-			</attribute>
-		</markerResolutionGenerator>
-		<markerResolutionGenerator
-			class="org.xtext.example.mydsl.ui.MyDslExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
-			markerType="org.xtext.example.mydsl.ui.mydsl.check.expensive">
-			<attribute
-				name="FIXABLE_KEY"
-				value="true">
-			</attribute>
-		</markerResolutionGenerator>
-	</extension>
 	<!-- Rename Refactoring -->
 	<extension point="org.eclipse.ui.handlers">
 		<handler 

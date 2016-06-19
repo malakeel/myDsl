@@ -4,10 +4,20 @@
 package org.xtext.example.mydsl.jvmmodel
 
 import com.google.inject.Inject
+import org.eclipse.xtext.common.types.JvmOperation
+import org.eclipse.xtext.naming.IQualifiedNameProvider
+import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.jvmmodel.AbstractModelInferrer
 import org.eclipse.xtext.xbase.jvmmodel.IJvmDeclaredTypeAcceptor
 import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder
-import org.xtext.example.mydsl.myDsl.Domainmodel
+import org.xtext.example.mydsl.myDsl.Action
+import org.xtext.example.mydsl.myDsl.PrepareDeclaraion
+import org.xtext.example.mydsl.myDsl.SuiteDeclaration
+import org.xtext.example.mydsl.myDsl.TestDefinition
+import org.eclipse.xtext.xbase.compiler.XbaseCompiler
+import org.eclipse.xtext.common.types.JvmMember
+import org.eclipse.xtext.common.types.JvmVisibility
+
 
 /**
  * <p>Infers a JVM model from the source model.</p> 
@@ -22,40 +32,76 @@ class MyDslJvmModelInferrer extends AbstractModelInferrer {
 	 */
 	@Inject extension JvmTypesBuilder
 
-	/**
-	 * The dispatch method {@code infer} is called for each instance of the
-	 * given element's type that is contained in a resource.
-	 * 
-	 * @param element
-	 *            the model to create one or more
-	 *            {@link org.eclipse.xtext.common.types.JvmDeclaredType declared
-	 *            types} from.
-	 * @param acceptor
-	 *            each created
-	 *            {@link org.eclipse.xtext.common.types.JvmDeclaredType type}
-	 *            without a container should be passed to the acceptor in order
-	 *            get attached to the current resource. The acceptor's
-	 *            {@link IJvmDeclaredTypeAcceptor#accept(org.eclipse.xtext.common.types.JvmDeclaredType)
-	 *            accept(..)} method takes the constructed empty type for the
-	 *            pre-indexing phase. This one is further initialized in the
-	 *            indexing phase using the lambda you pass as the last argument.
-	 * @param isPreIndexingPhase
-	 *            whether the method is called in a pre-indexing phase, i.e.
-	 *            when the global index is not yet fully updated. You must not
-	 *            rely on linking using the index if isPreIndexingPhase is
-	 *            <code>true</code>.
-	 */
-	def dispatch void infer(Domainmodel element, IJvmDeclaredTypeAcceptor acceptor, boolean isPreIndexingPhase) {
-		// Here you explain how your model is mapped to Java elements, by writing the actual translation code.
-		// An implementation for the initial hello world example could look like this:
-// 		acceptor.accept(element.toClass("my.company.greeting.MyGreetings")) [
-// 			for (greeting : element.greetings) {
-// 				members += greeting.toMethod("hello" + greeting.name, typeRef(String)) [
-// 					body = '''
-//						return "Hello ?greeting.name?";
-//					'''
-//				]
-//			}
-//		]
+	@Inject extension IQualifiedNameProvider
+
+
+	def dispatch void infer(SuiteDeclaration suite, IJvmDeclaredTypeAcceptor acceptor, boolean isPreIndexingPhase) {
+
+		acceptor.accept(suite.toClass(suite.fullyQualifiedName)) [
+			abstract = false
+			packageName = suite.eContainer.fullyQualifiedName.toString
+
+			members += suite.toMethod("beforeSuite", void.typeRef) [
+				static = true
+				annotations += annotationRef("org.junit.BeforeClass");
+				val actions = suite.beforeActions
+				for (Action action : actions) {
+				body = ''''''
+				}
+			]
+
+			members += suite.toMethod("beforeTest", void.typeRef) [
+				annotations += annotationRef("org.junit.Before");
+				body = ''''''
+			]
+
+			for (TestDefinition test : suite.prepare.testCases) {
+				members += this.createTestMethod(test);
+			}
+
+			members += suite.toMethod("afterTest", void.typeRef) [
+				annotations += annotationRef("org.junit.After");
+				body = ''''''
+			]
+
+			members += suite.toMethod("afterSuite", typeRef(void)) [
+				static = true
+				annotations += annotationRef("org.junit.AfterClass");
+				body = '''
+					«FOR a : suite.afterActions»
+						new «a.type.fullyQualifiedName » ;
+						«ENDFOR»
+				'''
+			]
+		]
 	}
+ 
+
+	def JvmOperation createTestMethod(TestDefinition test) {
+		test.toMethod(test.name, typeRef(void)) [
+			annotations += annotationRef("org.junit.Test");
+//			visibility = JvmVisibility.PRIVATE ;
+			body = ''' 
+				«FOR action : test.actions»
+				(new «action.type » (
+«««					«FOR target : action.config.targets »
+«««						«test.associate(target)»
+«««						«target»
+«««					«ENDFOR»
+				)).exec(); 
+					«ENDFOR»
+			'''
+		]
+		
+	}
+
+	def dispatch void infer(TestDefinition testCase, IJvmDeclaredTypeAcceptor acceptor, boolean isPreIndexingPhase) {
+		testCase.toMethod(testCase.name + "Test", typeRef(void)) [
+			annotations += annotationRef("org.junit.Test");
+		]
+	}
+
+	def XExpression translate(Action action) {
+	}
+
 }

@@ -12,6 +12,10 @@ import org.eclipse.xtext.ui.editor.contentassist.ICompletionProposalAcceptor.Del
 import org.eclipse.jface.text.contentassist.ICompletionProposal
 import org.eclipse.xtext.ui.editor.contentassist.ConfigurableCompletionProposal
 import org.eclipse.xtext.RuleCall
+import org.eclipse.xtext.EcoreUtil2
+import com.google.inject.Inject
+import org.eclipse.xtext.common.types.access.IJvmTypeProvider
+import org.eclipse.xtext.common.types.xtext.ui.ITypesProposalProvider
 
 /**
  * See https://www.eclipse.org/Xtext/documentation/304_ide_concepts.html#content-assist
@@ -19,20 +23,40 @@ import org.eclipse.xtext.RuleCall
  */
 class MyDslProposalProvider extends AbstractMyDslProposalProvider {
 
-	override complete_ActionType(EObject model, RuleCall call, ContentAssistContext context,
-		ICompletionProposalAcceptor acceptor) {
-//		super.completeUsage_Definition(model, assignment, context, new StringProposalDelegate(acceptor, context))
-		super.complete_ActionType(model, call, context, acceptor);
-	}
+	@Inject
+	private IJvmTypeProvider.Factory jvmTypeProviderFactory;
+	@Inject
+	private ITypesProposalProvider typeProposalProvider;
+
+//	override complete_ActionType(EObject model, RuleCall call, ContentAssistContext context,
+//		ICompletionProposalAcceptor acceptor) {
+////		super.completeUsage_Definition(model, assignment, context, new StringProposalDelegate(acceptor, context))
+////		if (EcoreUtil2.getContainerOfType(model, null) != null) {
+////			final
+////			IJvmTypeProvider
+////		def	jvmTypeProvider = jvmTypeProviderFactory.createTypeProvider(model.eResource().getResourceSet());
+////			// Graphiti specific
+////			final
+////			JvmType
+////			interfaceToImplement = jvmTypeProvider.findTypeByName(ICustomFeature.class.getName());
+////			typeProposalProvider.createSubTypeProposals(interfaceToImplement, this, context,
+////				SprayPackage.Literals.BEHAVIOR__REALIZED_BY, TypeMatchFilters.canInstantiate(), acceptor);
+////		} else {
+////			super.completeJvmParameterizedTypeReference_Type(model, assignment, context, acceptor);
+////		}
+//
+////		super.complete_ActionType(model, call, context, acceptor);
+//	}
 
 	static class StringProposalDelegate extends Delegate {
 
 		ContentAssistContext ctx
 
 		new(ICompletionProposalAcceptor delegate, ContentAssistContext ctx) {
-			super(delegate)
-			this.ctx = ctx
-		}
+			super
+
+	(delegate)this.ctx = ctx
+}
 
 		override accept(ICompletionProposal proposal) {
 			if (proposal instanceof ConfigurableCompletionProposal) {

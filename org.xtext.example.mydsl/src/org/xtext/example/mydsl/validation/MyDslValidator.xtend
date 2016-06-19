@@ -3,9 +3,14 @@
  */
 package org.xtext.example.mydsl.validation
 
-import org.xtext.example.mydsl.myDsl.SuiteDeclaration
+import com.google.inject.Inject
+import org.eclipse.xtext.resource.IResourceDescriptions
 import org.eclipse.xtext.validation.Check
+import org.xtext.example.mydsl.myDsl.ConfigFile
 import org.xtext.example.mydsl.myDsl.MyDslPackage
+import org.xtext.example.mydsl.myDsl.SuiteDeclaration
+import org.eclipse.core.resources.ResourcesPlugin
+import org.eclipse.xtend.lib.macro.file.Path
 
 /**
  * This class contains custom validation rules. 
@@ -14,21 +19,56 @@ import org.xtext.example.mydsl.myDsl.MyDslPackage
  */
 class MyDslValidator extends AbstractMyDslValidator {
 
-//	public static val INVALID_NAME = 'invalidName'
-//
-//	@Check
-//	def checkGreetingStartsWithCapital(Greeting greeting) {
-//		if (!Character.isUpperCase(greeting.name.charAt(0))) {
-//			warning('Name should start with a capital', 
-//					MyDslPackage.Literals.GREETING__NAME,
-//					INVALID_NAME)
-//		}
-//	}
+	private static final val fileEx = "demo";
+ 
+	@Inject
+	IResourceDescriptions resourceDescriptions ;
+
 	@Check
 	def checkSuiteName(SuiteDeclaration suite) {
 		if (!Character.isUpperCase(suite.name.charAt(0))) {
 			warning("Suite name must be Capitalized", MyDslPackage.Literals.SUITE_DECLARATION__NAME, "issue 1")
 		}
+		println(suite.eResource)
+		var fileName = suite.eResource.URI.toPlatformString(true);
+		var expectedFileName = suite.name + "." + fileEx
+		if (!fileName.endsWith(expectedFileName)) {
+			error("Suite name must match file name", MyDslPackage.Literals.SUITE_DECLARATION__NAME, "issue 1")
+		}
 	}
 
+	@Check
+	def checkConfigFile(ConfigFile configFile) {
+
+		val suiteURI = configFile.eResource.URI .toPlatformString(true)
+		val configPath = (new Path(suiteURI)).parent.append(configFile.file)
+		val workspace = ResourcesPlugin.workspace.root
+
+		val con = workspace.getFile(new org.eclipse.core.runtime.Path(configPath.toString))
+
+		val msg = "File does not exist"
+		println("checking the path " + configPath + "")
+
+		if (!con.exists) {
+			println("not found " + configPath)
+			error(msg, MyDslPackage.Literals.CONFIG_FILE__FILE, "some issue")
+		}
+	}
+
+//	@Check
+//	def checkFiles(Files files) {
+//		for (ConfigFile f : files.files) {
+//			println(f)
+//		}
+//
+//		var suiteFile = files.eResource.URI.toPlatformString(true);
+//
+//		var modulePath = Paths.get(suiteFile);
+//
+//	}
+//	@Check
+//	def checkConfigFile(ConfigFile configFile) {
+//		var fileName = configFile.eResource.URI.toPlatformString(true);
+//		println(fileName)
+//	}
 }

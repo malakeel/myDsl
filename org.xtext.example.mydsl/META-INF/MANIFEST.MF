@@ -15,13 +15,13 @@ Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtend.lib,
  org.eclipse.emf.common,
  org.eclipse.xtext.common.types,
+ org.eclipse.core.resources,
  org.objectweb.asm;bundle-version="[5.0.1,6.0.0)";resolution:=optional
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.xtext.example.mydsl.myDsl.util,
  org.xtext.example.mydsl.parser.antlr.internal,
  org.xtext.example.mydsl.scoping,
  org.xtext.example.mydsl.services,
- org.xtext.example.mydsl.generator,
  org.xtext.example.mydsl.validation,
  org.xtext.example.mydsl,
  org.xtext.example.mydsl.myDsl.impl,
@@ -29,8 +29,5 @@ Export-Package: org.xtext.example.mydsl.myDsl.util,
  org.xtext.example.mydsl.serializer,
  org.xtext.example.mydsl.parser.antlr,
  org.xtext.example.mydsl.jvmmodel,
- org.xtext.example.mydsl.formatting2,
- org.xtext.example.mydsl.sentryDSL.impl,
- org.xtext.example.mydsl.sentryDSL,
- org.xtext.example.mydsl.sentryDSL.util
+ org.xtext.example.mydsl.formatting2
 Import-Package: org.apache.log4j

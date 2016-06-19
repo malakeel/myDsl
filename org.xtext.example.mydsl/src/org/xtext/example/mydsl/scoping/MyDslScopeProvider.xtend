@@ -3,6 +3,14 @@
  */
 package org.xtext.example.mydsl.scoping
 
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EReference
+import org.xtext.example.mydsl.myDsl.MyDslPackage
+import org.xtext.example.mydsl.myDsl.Action
+import org.eclipse.xtext.scoping.Scopes
+import org.eclipse.xtext.common.types.JvmField
+import org.eclipse.xtext.naming.QualifiedName
+import org.eclipse.xtext.scoping.IScope
 
 /**
  * This class contains custom scoping description.
@@ -12,4 +20,16 @@ package org.xtext.example.mydsl.scoping
  */
 class MyDslScopeProvider extends AbstractMyDslScopeProvider {
 
+//	override getScope(EObject context, EReference reference) {
+//		if (reference === MyDslPackage.Literals.ACTION_COMPONENT__FIELD) {
+//			if (context instanceof ActionComponent) {
+//				val result = Scopes.scopeFor(context.type.members.filter(JvmField).filter[isStatic], [
+//					QualifiedName.create(simpleName)
+//				], IScope.NULLSCOPE) // TODO filter
+//				println(result)
+//				return result
+//			}
+//		}
+//		return super.getScope(context, reference)
+//	}
 }

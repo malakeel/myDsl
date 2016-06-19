@@ -13,17 +13,22 @@ Workflow {
 				baseName = "org.xtext.example.mydsl"
 				rootPath = rootPath
 				runtimeTest = {
-					enabled = true
+					enabled = false
 				}
 				eclipsePlugin = {
 					enabled = true
 				}
 				eclipsePluginTest = {
-					enabled = true
+					enabled = false
 				}
 				web = {
-					enabled = true
+					enabled = false
 				}
+				genericIde = {
+					enabled = true
+					//					manifest = true
+				}
+//				mavenLayout = true
 				createEclipseMetaData = true
 			}
 
@@ -38,7 +43,7 @@ Workflow {
 			name = "org.xtext.example.mydsl.MyDsl"
 			fileExtensions = "demo"
 			serializer = {
-				generateStub = false
+				generateStub = true
 			}
 			validator = {
 			// composedCheck = "org.eclipse.xtext.validation.NamesAreUniqueValidator"
@@ -55,11 +60,16 @@ Workflow {
 			qualifiedNamesProvider = {}
 
 			quickFixProvider = {
-				generateStub = true
+				generateStub = false
 			}
 			contentAssist = {
 				generateStub = true
 			}
+//			generator = {
+			//				generateJavaMain = true 
+//				generateStub = true
+//			}
+			//			generateXtendStubs = false
 
 			//			fragment = types.TypesGeneratorFragment {}
 		}
