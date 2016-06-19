@@ -15,8 +15,8 @@ class MyDslTypeComputer extends XbaseTypeComputer {
 		} else {
 			super.computeTypes(expression, state)
 		}
-		
 	}
+
 
 	protected def void _computeTypes(Action action, ITypeComputationState state) {
 		state.withExpectation(getPrimitiveVoid(state)).computeTypes(action)

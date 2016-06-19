@@ -79,18 +79,14 @@ class MyDslJvmModelInferrer extends AbstractModelInferrer {
 		test.toMethod(test.name, typeRef(void)) [
 			annotations += annotationRef("org.junit.Test");
 			body = ''' 
-			«FOR ex : test.block.expressions»
-				Line:	«ex»
-			«ENDFOR»
-			ACTION BLOCK
-«««			«test.block»
-			«««				«FOR action : test.block»
+			TEST BLOCK
+			«test.block»
+«««				«FOR action : test.block»
 «««				(new «action.type » (
 «««					«FOR target : action.config.targets »
 «««						«target» MyString
 «««					«ENDFOR»
-«««				)).exec(); 
-«««					«ENDFOR»
+«««				)).exec();«ENDFOR»
 			'''
 		]
 	}
