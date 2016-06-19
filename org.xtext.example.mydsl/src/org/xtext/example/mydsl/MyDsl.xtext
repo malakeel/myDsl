@@ -19,37 +19,35 @@ Domainmodel:
 	suite=SuiteDeclaration;
 
 SuiteDeclaration:
-	'suite' name=ValidID ('using' '(' configFiles=Files ')')? '{' handlers+=EventHandlerDefinition* beforeActions+=Action*
-	prepare=PrepareDeclaraion afterActions+=(Action)* '}';
+	'suite' name=ValidID ('using' '(' configFiles=Files ')')? '{' //
+	//	handlers+=EventHandlerDefinition* //
+	beforeActions+=Action* //
+	prepare=PrepareDeclaraion //
+	afterActions+=(Action)* '}';
 
 PrepareDeclaraion:
-	'prepare' ('using' '(' configFiles=Files ')')? '{' handlers+=EventHandlerDefinition* beforeActions+=Action*
-	testCases+=TestDefinition+ afterActions+=Action* '}';
+	'prepare' ('using' '(' configFiles=Files ')')? '{' //
+	//	handlers+=EventHandlerDefinition* //
+	beforeActions+=Action* //
+	testCases+=TestDefinition+ //
+	afterActions+=Action* '}';
 
 TestDefinition:
-	"test" name=ValidID ('using' '(' configFiles=Files ')')? '{' actions+=(Action)+ '}';
+	"test" name=ValidID ('using' '(' configFiles=Files ')')? '{' block=TestBlock '}';
 
-/*A list of comma separated files ending with xml, properties) */
-Files:
-	files+=ConfigFile ("," files+=ConfigFile)*;
+TestBlock returns xbase::XBlockExpression:
+	expressions+=Action+;
 
-ConfigFile:
-	file=FileName;
-
-FileName:
-	(ID | INT) "." ("xml" | "properties");
-	//	('a'..'z' | 'A'..'Z' | '_' | '0'..'9')* "." ("xml" | "properties" | "data");
-
-/* The documentation for the action */
-Action:
-	type=JvmTypeReference config=ActionConfiguration ";";
+Action returns xbase::XExpression:
+ {Action} type=JvmTypeReference config=ActionConfiguration ";";
 
 ActionConfiguration:
 	{ActionConfiguration} targets+=(UIElement)* (":" data+=Datum+)?;
 
-UIElement: //; returns xbase::XExpression:
-	comp=(XMemberFeatureCall);
-//	{UIElement} content=XBlockExpression;
+UIElement:
+//	comp=(XMemberFeatureCall);
+// { xbase::XExpression}
+	{UIElement} block=XExpression;
 
 Datum:
 	content=PropertyRef | Value;
@@ -61,23 +59,32 @@ Value:
 	value=(Number | STRING);
 
 NAMESPACE:
-	CHAR CHAR CHAR (CHAR | DIGIT);
+	ID;
 
-EventHandlerDefinition:
-	"On" ConditionExpression Action ";";
+/*A list of comma separated files ending with xml, properties) */
+Files:
+	files+=ConfigFile ("," files+=ConfigFile)*;
 
+ConfigFile:
+	file=FileName;
+
+FileName:
+	(ID | INT) "." ("xml" | "properties");
+	//	('a'..'z' | 'A'..'Z' | '_' | '0'..'9')* "." ("xml" | "properties" | "data");
+//EventHandlerDefinition:
+//	{EventHandlerDefinition} "On" ConditionExpression Action ";";
 ConditionExpression:
 	ConditionCircuimstance;
 
 ConditionCircuimstance:
 	"blank";
 
-terminal DIGIT:
-	'0'..'9';
-
-terminal CHAR:
-	('a'..'z');
-	//
+	//terminal DIGIT:
+//	'0'..'9';
+//
+//terminal CHAR:
+//	('a'..'z');
+//
 //terminal NEWLINE: // New line on DOS or Unix 
 //	'\r'? '\n';
 

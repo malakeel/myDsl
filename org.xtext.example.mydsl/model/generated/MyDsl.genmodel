@@ -14,14 +14,12 @@
     <genClasses ecoreClass="MyDsl.ecore#//SuiteDeclaration">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyDsl.ecore#//SuiteDeclaration/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//SuiteDeclaration/configFiles"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//SuiteDeclaration/handlers"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//SuiteDeclaration/beforeActions"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//SuiteDeclaration/prepare"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//SuiteDeclaration/afterActions"/>
     </genClasses>
     <genClasses ecoreClass="MyDsl.ecore#//PrepareDeclaraion">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//PrepareDeclaraion/configFiles"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//PrepareDeclaraion/handlers"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//PrepareDeclaraion/beforeActions"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//PrepareDeclaraion/testCases"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//PrepareDeclaraion/afterActions"/>
@@ -29,7 +27,20 @@
     <genClasses ecoreClass="MyDsl.ecore#//TestDefinition">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyDsl.ecore#//TestDefinition/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//TestDefinition/configFiles"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//TestDefinition/actions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//TestDefinition/block"/>
+    </genClasses>
+    <genClasses ecoreClass="MyDsl.ecore#//ActionConfiguration">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//ActionConfiguration/targets"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//ActionConfiguration/data"/>
+    </genClasses>
+    <genClasses ecoreClass="MyDsl.ecore#//UIElement">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//UIElement/block"/>
+    </genClasses>
+    <genClasses ecoreClass="MyDsl.ecore#//Datum">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyDsl.ecore#//Datum/content"/>
+    </genClasses>
+    <genClasses ecoreClass="MyDsl.ecore#//Value">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyDsl.ecore#//Value/value"/>
     </genClasses>
     <genClasses ecoreClass="MyDsl.ecore#//Files">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//Files/files"/>
@@ -41,19 +52,5 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//Action/type"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//Action/config"/>
     </genClasses>
-    <genClasses ecoreClass="MyDsl.ecore#//ActionConfiguration">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//ActionConfiguration/targets"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//ActionConfiguration/data"/>
-    </genClasses>
-    <genClasses ecoreClass="MyDsl.ecore#//UIElement">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//UIElement/comp"/>
-    </genClasses>
-    <genClasses ecoreClass="MyDsl.ecore#//Datum">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyDsl.ecore#//Datum/content"/>
-    </genClasses>
-    <genClasses ecoreClass="MyDsl.ecore#//Value">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyDsl.ecore#//Value/value"/>
-    </genClasses>
-    <genClasses ecoreClass="MyDsl.ecore#//EventHandlerDefinition"/>
   </genPackages>
 </genmodel:GenModel>

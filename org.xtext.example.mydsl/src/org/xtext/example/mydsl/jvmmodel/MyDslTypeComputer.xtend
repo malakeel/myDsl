@@ -15,10 +15,11 @@ class MyDslTypeComputer extends XbaseTypeComputer {
 		} else {
 			super.computeTypes(expression, state)
 		}
+		
 	}
 
 	protected def void _computeTypes(UIElement object, ITypeComputationState state) {
-		state.withExpectation(getPrimitiveVoid(state)).computeTypes(object.comp)
+		state.withExpectation(getPrimitiveVoid(state)).computeTypes(object.block)
 		state.acceptActualType(getTypeForName(Runnable, state), ConformanceFlags.CHECKED_SUCCESS)
 	}
 

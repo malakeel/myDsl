@@ -12,45 +12,32 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="configFiles" eType="#//Files"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="handlers" upperBound="-1"
-        eType="#//EventHandlerDefinition" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="beforeActions" upperBound="-1"
-        eType="#//Action" containment="true"/>
+        eType="ecore:EClass platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression"
+        containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="prepare" eType="#//PrepareDeclaraion"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="afterActions" upperBound="-1"
-        eType="#//Action" containment="true"/>
+        eType="ecore:EClass platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PrepareDeclaraion">
     <eStructuralFeatures xsi:type="ecore:EReference" name="configFiles" eType="#//Files"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="handlers" upperBound="-1"
-        eType="#//EventHandlerDefinition" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="beforeActions" upperBound="-1"
-        eType="#//Action" containment="true"/>
+        eType="ecore:EClass platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression"
+        containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="testCases" upperBound="-1"
         eType="#//TestDefinition" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="afterActions" upperBound="-1"
-        eType="#//Action" containment="true"/>
+        eType="ecore:EClass platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TestDefinition">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="configFiles" eType="#//Files"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="actions" upperBound="-1"
-        eType="#//Action" containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Files">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="files" upperBound="-1"
-        eType="#//ConfigFile" containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ConfigFile">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="file" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Action" eSuperTypes="#//EventHandlerDefinition">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass platform:/resource/org.eclipse.xtext.common.types/model/JavaVMTypes.ecore#//JvmTypeReference"
-        containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="config" eType="#//ActionConfiguration"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="block" eType="ecore:EClass platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore#//XBlockExpression"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActionConfiguration">
@@ -60,7 +47,7 @@
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UIElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="comp" eType="ecore:EClass platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="block" eType="ecore:EClass platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Datum">
@@ -69,5 +56,17 @@
   <eClassifiers xsi:type="ecore:EClass" name="Value" eSuperTypes="#//Datum">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="EventHandlerDefinition"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Files">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="files" upperBound="-1"
+        eType="#//ConfigFile" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConfigFile">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="file" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Action" eSuperTypes="platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass platform:/resource/org.eclipse.xtext.common.types/model/JavaVMTypes.ecore#//JvmTypeReference"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="config" eType="#//ActionConfiguration"
+        containment="true"/>
+  </eClassifiers>
 </ecore:EPackage>

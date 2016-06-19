@@ -18,7 +18,6 @@ import org.eclipse.xtext.xbase.compiler.XbaseCompiler
 import org.eclipse.xtext.common.types.JvmMember
 import org.eclipse.xtext.common.types.JvmVisibility
 
-
 /**
  * <p>Infers a JVM model from the source model.</p> 
  * 
@@ -34,7 +33,6 @@ class MyDslJvmModelInferrer extends AbstractModelInferrer {
 
 	@Inject extension IQualifiedNameProvider
 
-
 	def dispatch void infer(SuiteDeclaration suite, IJvmDeclaredTypeAcceptor acceptor, boolean isPreIndexingPhase) {
 
 		acceptor.accept(suite.toClass(suite.fullyQualifiedName)) [
@@ -45,9 +43,10 @@ class MyDslJvmModelInferrer extends AbstractModelInferrer {
 				static = true
 				annotations += annotationRef("org.junit.BeforeClass");
 				val actions = suite.beforeActions
-				for (Action action : actions) {
-				body = ''''''
-				}
+//				for (Action action : actions) {
+//				}
+				body = '''
+				'''
 			]
 
 			members += suite.toMethod("beforeTest", void.typeRef) [
@@ -68,31 +67,32 @@ class MyDslJvmModelInferrer extends AbstractModelInferrer {
 				static = true
 				annotations += annotationRef("org.junit.AfterClass");
 				body = '''
-					«FOR a : suite.afterActions»
-						new «a.type.fullyQualifiedName » ;
-						«ENDFOR»
+«««					«FOR a : suite.afterActions»
+«««						new «a.type.fullyQualifiedName » ;
+«««					«ENDFOR»
 				'''
 			]
 		]
 	}
- 
 
 	def JvmOperation createTestMethod(TestDefinition test) {
 		test.toMethod(test.name, typeRef(void)) [
 			annotations += annotationRef("org.junit.Test");
-//			visibility = JvmVisibility.PRIVATE ;
 			body = ''' 
-				«FOR action : test.actions»
-				(new «action.type » (
+			«FOR ex : test.block.expressions»
+				Line:	«ex»
+			«ENDFOR»
+			ACTION BLOCK
+«««			«test.block»
+			«««				«FOR action : test.block»
+«««				(new «action.type » (
 «««					«FOR target : action.config.targets »
-«««						«test.associate(target)»
-«««						«target»
+«««						«target» MyString
 «««					«ENDFOR»
-				)).exec(); 
-					«ENDFOR»
+«««				)).exec(); 
+«««					«ENDFOR»
 			'''
 		]
-		
 	}
 
 	def dispatch void infer(TestDefinition testCase, IJvmDeclaredTypeAcceptor acceptor, boolean isPreIndexingPhase) {
@@ -100,8 +100,7 @@ class MyDslJvmModelInferrer extends AbstractModelInferrer {
 			annotations += annotationRef("org.junit.Test");
 		]
 	}
-
-	def XExpression translate(Action action) {
-	}
-
+//
+//	def XExpression translate(Action action) {
+//	}
 }

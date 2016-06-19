@@ -4,6 +4,8 @@ import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputer
 import org.xtext.example.mydsl.jvmmodel.MyDslTypeComputer
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler
 import org.xtext.example.mydsl.jvmmodel.MyDslCompiler
+import org.eclipse.xtext.xbase.util.XExpressionHelper
+import org.xtext.example.mydsl.jvmmodel.MyDslXExpressionHelper
 
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
@@ -16,10 +18,15 @@ class MyDslRuntimeModule extends AbstractMyDslRuntimeModule {
 
 //
 //
-//    def Class<? extends ITypeComputer> bindITypeComputer() {
-//        return MyDslTypeComputer
-//    }
-//    def Class<? extends XbaseCompiler> bindXbaseCompiler() {
-//        return MyDslCompiler
-//    }
+    def Class<? extends ITypeComputer> bindITypeComputer() {
+        return MyDslTypeComputer
+    }
+    def Class<? extends XbaseCompiler> bindXbaseCompiler() {
+        return MyDslCompiler
+    }
+    
+    
+    def Class<? extends XExpressionHelper> bindXExpressionHelper() {
+        MyDslXExpressionHelper
+    }
 }
