@@ -48,6 +48,7 @@
     <genClasses ecoreClass="MyDsl.ecore#//ConfigFile">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyDsl.ecore#//ConfigFile/file"/>
     </genClasses>
+    <genClasses ecoreClass="MyDsl.ecore#//TestBlock"/>
     <genClasses ecoreClass="MyDsl.ecore#//Action">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//Action/type"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//Action/config"/>

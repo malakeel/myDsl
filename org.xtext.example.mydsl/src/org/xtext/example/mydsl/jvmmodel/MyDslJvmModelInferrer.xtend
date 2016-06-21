@@ -22,7 +22,8 @@ import org.eclipse.xtext.common.types.JvmVisibility
  * <p>Infers a JVM model from the source model.</p> 
  * 
  * <p>The JVM model should contain all elements that would appear in the Java code 
- * which is generated from the source model. Other models link against the JVM model rather than the source model.</p>     
+ * which is generated from the source model. Other models link against the JVM
+ *  model rather than the source model.</p>     
  */
 class MyDslJvmModelInferrer extends AbstractModelInferrer {
 
@@ -45,8 +46,10 @@ class MyDslJvmModelInferrer extends AbstractModelInferrer {
 				val actions = suite.beforeActions
 //				for (Action action : actions) {
 //				}
+
 				body = '''
 				'''
+//				JvmTypesBuilder.
 			]
 
 			members += suite.toMethod("beforeTest", void.typeRef) [
@@ -78,16 +81,7 @@ class MyDslJvmModelInferrer extends AbstractModelInferrer {
 	def JvmOperation createTestMethod(TestDefinition test) {
 		test.toMethod(test.name, typeRef(void)) [
 			annotations += annotationRef("org.junit.Test");
-			body = ''' 
-			TEST BLOCK
-			«test.block»
-«««				«FOR action : test.block»
-«««				(new «action.type » (
-«««					«FOR target : action.config.targets »
-«««						«target» MyString
-«««					«ENDFOR»
-«««				)).exec();«ENDFOR»
-			'''
+			body = test.block
 		]
 	}
 
