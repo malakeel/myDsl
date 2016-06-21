@@ -17,15 +17,20 @@ class MyDslTypeComputer extends XbaseTypeComputer {
 		}
 	}
 
-
 	protected def void _computeTypes(Action action, ITypeComputationState state) {
-		state.withExpectation(getPrimitiveVoid(state)).computeTypes(action)
-		state.acceptActualType(getTypeForName(Runnable, state), ConformanceFlags.CHECKED_SUCCESS)
+		for (t : action.config.targets) {
+			println("TODO better logic here ?!?")
+			val iaction = state.getReferenceOwner().getServices().getTypeReferences().findDeclaredType(
+				"org.example.ILocator", state.referenceOwner.contextResourceSet)
+			state.withExpectation(
+				state.referenceOwner.newParameterizedTypeReference(iaction)
+			).computeTypes(t.block)
+		}
+		state.acceptActualType(getTypeForName(Void.TYPE, state), ConformanceFlags.CHECKED_SUCCESS)
 	}
-	
+
 //	 def dispatch computeTypes(UIElement literal, ITypeComputationState state) {
 //        state.withNonVoidExpectation.computeTypes(literal.obj)
 //        state.acceptActualType(getPrimitiveVoid(state))
 //    }
-
 }

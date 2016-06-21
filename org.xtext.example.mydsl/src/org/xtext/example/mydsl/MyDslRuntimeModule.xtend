@@ -15,18 +15,18 @@ class MyDslRuntimeModule extends AbstractMyDslRuntimeModule {
 ////		super.bindIGenerator
 //		MyGenerator
 //	}
+//
+//
+	def Class<? extends ITypeComputer> bindITypeComputer() {
+		return MyDslTypeComputer
+	}
 
-//
-//
-    def Class<? extends ITypeComputer> bindITypeComputer() {
-        return MyDslTypeComputer
-    }
-    def Class<? extends XbaseCompiler> bindXbaseCompiler() {
-        return MyDslCompiler
-    }
-    
-    def Class<? extends XExpressionHelper> bindXExpressionHelper() {
-        MyDslXExpressionHelper
-    }
-    
+	def Class<? extends XbaseCompiler> bindXbaseCompiler() {
+		return MyDslCompiler
+	}
+
+	def Class<? extends XExpressionHelper> bindXExpressionHelper() {
+		return MyDslXExpressionHelper
+	}
+
 }

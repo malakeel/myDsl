@@ -36,17 +36,15 @@ TestDefinition:
 	"test" name=ValidID ('using' '(' configFiles=Files ')')? '{' block=TestBlock '}';
 
 TestBlock returns xbase::XBlockExpression:
-	expressions+=Action+;
+	{TestBlock} expressions+=Action+;
 
 Action returns xbase::XExpression:
- {Action} type=JvmTypeReference config=ActionConfiguration ";";
+	{Action}  type=JvmTypeReference config=ActionConfiguration ";";
 
 ActionConfiguration:
 	{ActionConfiguration} targets+=(UIElement)* (":" data+=Datum+)?;
 
 UIElement:
-//	comp=(XMemberFeatureCall);
-// { xbase::XExpression}
 	{UIElement} block=XExpression;
 
 Datum:
