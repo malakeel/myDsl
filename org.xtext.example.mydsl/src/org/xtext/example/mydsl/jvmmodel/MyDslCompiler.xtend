@@ -1,52 +1,104 @@
 package org.xtext.example.mydsl.jvmmodel
 
+import org.eclipse.xtext.xbase.XAbstractFeatureCall
+import org.eclipse.xtext.xbase.XExpression
+import org.eclipse.xtext.xbase.XMemberFeatureCall
 import org.eclipse.xtext.xbase.compiler.XbaseCompiler
 import org.eclipse.xtext.xbase.compiler.output.ITreeAppendable
-import org.eclipse.xtext.xbase.XExpression
-import org.xtext.example.mydsl.myDsl.UIElement
 import org.xtext.example.mydsl.myDsl.Action
-import org.xtext.example.mydsl.services.MyDslGrammarAccess.TestBlockElements
-import org.eclipse.xtext.xbase.impl.XBlockExpressionImplCustom
-import org.xtext.example.mydsl.myDsl.TestDefinition
-import org.xtext.example.mydsl.myDsl.TestBlock
+import org.xtext.example.mydsl.myDsl.TestBody
+import org.xtext.example.mydsl.myDsl.UIElement
+import org.xtext.example.mydsl.myDsl.InitBody
+import org.xtext.example.mydsl.myDsl.EventHandler
+import org.xtext.example.mydsl.myDsl.Arguments
+import org.eclipse.xtext.xbase.compiler.ImportManager
+import org.xtext.example.mydsl.services.MyDslGrammarAccess.DatumElements
 import org.eclipse.xtext.xbase.XFeatureCall
-import org.eclipse.xtext.xbase.XAbstractFeatureCall
-import org.eclipse.xtext.common.types.JvmConstructor
-import org.eclipse.xtext.xbase.XMemberFeatureCall
+import org.eclipse.xtext.common.types.JvmTypeReference
+import org.eclipse.xtext.xbase.XbasePackage
 
 class MyDslCompiler extends XbaseCompiler {
 
-	override protected doInternalToJavaStatement(XExpression expr, ITreeAppendable appendable, boolean isReferenced) {
-
+//JvmTypeReference
+	override protected doInternalToJavaStatement(XExpression expr, ITreeAppendable tree, boolean isReferenced) {
 		switch expr {
-			TestBlock: {
-				for (action : expr.expressions)
-					action.doInternalToJavaStatement(appendable, isReferenced);
+			InitBody: {
+				tree.newLine
+				for (action : expr.actions)
+					action.doInternalToJavaStatement(tree, isReferenced);
+			}
+			TestBody: {
+				tree.newLine
+				for (action : expr.actions)
+					action.doInternalToJavaStatement(tree, isReferenced);
 			}
 			Action: {
-				appendable.newLine
 				val action = expr as Action;
-				appendable.trace(action)
-				appendable.append("(new ");
-				appendable.append(action.type.qualifiedName + "(");
-				for (target : action.config.targets)
-					this.doInternalToJavaStatement(target.block, appendable, isReferenced)
-				appendable.append(")).exec();").newLine
-			}
-			UIElement: {
-				expr.internalToJavaStatement(appendable, false);
+				tree.trace(action)
+				tree.append("(new ");
+				tree.append(action.type.qualifiedName + "(");
+				for (target : action.args.targets) {
+//					target..internalToConvertedExpression(tree);
+					this.internalToConvertedExpression(target.block, tree)
+				}
+				tree.append(")).exec();").newLine
 			}
 			default: {
-				super.doInternalToJavaStatement(expr, appendable, isReferenced)
+				super.doInternalToJavaStatement(expr, tree, isReferenced)
 			}
 		}
 	}
 
-	public override dispatch void toJavaStatement(XAbstractFeatureCall expr, ITreeAppendable b, boolean isReferenced) {
+	override protected internalToConvertedExpression(XExpression expr, ITreeAppendable tree) {
+		switch expr {
+			UIElement: {
+//				expr.internalToJavaStatement(tree, false);
+//				b.trace(call, XbasePackage.Literals.XABSTRACT_FEATURE_CALL__FEATURE, 0).append(referenceName);
+				tree.trace(expr, XbasePackage.Literals.XABSTRACT_FEATURE_CALL__FEATURE, 0).append("reference");
+			}
+			default: {
+				super.internalToConvertedExpression(expr, tree)
+			}
+		}
+	}
+
+//
+//	def dispatch toJavaStatement(InitBody expr, ITreeAppendable tree, boolean isReferenced) {
+////		for (eventHandler : expr.handlers)
+////			eventHandler.toJavaStatement(tree, false);
+//		for (action : expr.actions) {
+//			action.doInternalToJavaStatement(tree, false);
+//		}
+//	}
+//
+//	def dispatch toJavaStatement(TestBody expr, ITreeAppendable tree, boolean isReferenced) {
+//		for (action : expr.actions)
+//			action.doInternalToJavaStatement(tree, isReferenced);
+//	}
+//	def dispatch toJavaStatement(Action action, ITreeAppendable tree, boolean isReferenced) {
+//		tree.trace(action)
+//		tree.append("(new ");
+//		tree.append(action.type.qualifiedName + "(");
+//		for (target : action.args.targets) {
+//			target.internalToConvertedExpression(tree);
+//		}
+////		for (d : action.args.data) {
+////			d.doInternalToJavaStatement( tree , false)
+////		}
+//		tree.append(")).exec();").newLine
+//	}
+	override dispatch void toJavaStatement(XAbstractFeatureCall expr, ITreeAppendable b, boolean isReferenced) {
+		println(expr)
 		if (expr instanceof XMemberFeatureCall) {
 			featureCalltoJavaExpression(expr, b, false);
 		} else {
-			toJavaStatement(expr as XAbstractFeatureCall, b, isReferenced);
+			 toJavaStatement(expr, b, isReferenced);
 		}
 	}
+
+//	def compile(ITreeAppendable tree, Action action, boolean isReferenced) {
+//		tree.append('''(new helloooo «FOR arg : action.args.targets» «arg.toJavaExpression(tree)» «ENDFOR»''')
+//	}
+//
+//	def compile(UIElement element) '''kkk'''
 }

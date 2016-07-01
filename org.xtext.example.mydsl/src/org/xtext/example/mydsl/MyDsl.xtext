@@ -1,16 +1,11 @@
-grammar org.xtext.example.mydsl.MyDsl with
-//
-//org.eclipse.xtext.xbase.Xtype
-org.eclipse.xtext.xbase.Xbase
+grammar org.xtext.example.mydsl.MyDsl with org.eclipse.xtext.xbase.Xbase
 
 import "http://www.eclipse.org/xtext/common/JavaVMTypes" as jvmTypes
 import "http://www.eclipse.org/xtext/xbase/Xbase" as xbase
-
 //import "http://www.eclipse.org/xtext/xbase/Xtype" as xtypes
-//import "http://www.eclipse.org/emf/2002/Ecore" as ecore
-//
-//
-generate myDsl "http://www.xtext.org/example/mydsl/MyDsl"
+
+//generate myDsl "http://www.xtext.org/example/mydsl/MyDsl"
+generate myDsl "http://www.citynix.com/ns/drosera"
 
 Domainmodel:
 //	moduleName=ModuleDeclaration
@@ -20,43 +15,60 @@ Domainmodel:
 
 SuiteDeclaration:
 	'suite' name=ValidID ('using' '(' configFiles=Files ')')? '{' //
-	//	handlers+=EventHandlerDefinition* //
-	beforeActions+=Action* //
-	prepare=PrepareDeclaraion //
+	beforeSuite=InitBody prepare=PrepareDeclaraion //
 	afterActions+=(Action)* '}';
 
 PrepareDeclaraion:
 	'prepare' ('using' '(' configFiles=Files ')')? '{' //
-	//	handlers+=EventHandlerDefinition* //
-	beforeActions+=Action* //
+	before=InitBody //
 	testCases+=TestDefinition+ //
 	afterActions+=Action* '}';
 
-TestDefinition:
-	"test" name=ValidID ('using' '(' configFiles=Files ')')? '{' block=TestBlock '}';
+InitBody returns xbase::XBlockExpression:
+	{InitBody} //
+	handlers+=EventHandler* //
+	actions+=Action*;
 
-TestBlock returns xbase::XBlockExpression:
-	{TestBlock} expressions+=Action+;
+TestDefinition:
+	"test" name=ValidID ('using' '(' configFiles=Files ')')? '{' body=TestBody '}';
+
+TestBody returns xbase::XBlockExpression:
+	{TestBody} //
+	actions+=Action+;
+	//	"then" //
+//	validations+=Validation+;
+
+EventHandler returns xbase::XExpression:
+	{EventHandler} "On" type=JvmTypeReference conj=ConjunctionExpression "=>" handler=Action ";";
+
+	//ActionExpression returns xbase::XExpression:
+//	{ActionExpression} type=JvmTypeReference args=ActionConfiguration ";";
+
+//Validation returns xbase::XExpression:
+//	{Validation} type=JvmTypeReference args=Arguments ";";
+
+Arguments:
+	{Arguments} targets+=(UIElement)* (":" data+=Datum+)?;
 
 Action returns xbase::XExpression:
-	{Action}  type=JvmTypeReference config=ActionConfiguration ";";
+	{Action} type=JvmTypeReference args=Arguments ";";
 
-ActionConfiguration:
-	{ActionConfiguration} targets+=(UIElement)* (":" data+=Datum+)?;
-
-UIElement:
+UIElement : //;returns xbase::XExpression:
 	{UIElement} block=XExpression;
 
-Datum:
-	content=PropertyRef | Value;
+Datum returns xbase::XExpression:
+	 XLiteral | PropRef;
 
-PropertyRef:
-	NAMESPACE ":" QualifiedName;
+ConjunctionExpression returns xbase::XExpression:
+	{ConjunctionExpression} pos=("after" | "before");
 
-Value:
-	value=(Number | STRING);
+PropRef:
+	ns=NS ":" prop=QualifiedName;
 
-NAMESPACE:
+//Value :
+//	{Value} Xbase::XNumberLiteral | Xbase::XStringLiteral;
+
+NS:
 	ID;
 
 /*A list of comma separated files ending with xml, properties) */
@@ -69,21 +81,4 @@ ConfigFile:
 FileName:
 	(ID | INT) "." ("xml" | "properties");
 	//	('a'..'z' | 'A'..'Z' | '_' | '0'..'9')* "." ("xml" | "properties" | "data");
-//EventHandlerDefinition:
-//	{EventHandlerDefinition} "On" ConditionExpression Action ";";
-ConditionExpression:
-	ConditionCircuimstance;
-
-ConditionCircuimstance:
-	"blank";
-
-	//terminal DIGIT:
-//	'0'..'9';
-//
-//terminal CHAR:
-//	('a'..'z');
-//
-//terminal NEWLINE: // New line on DOS or Unix 
-//	'\r'? '\n';
-
-    
+  

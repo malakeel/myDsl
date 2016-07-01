@@ -4,19 +4,18 @@
 package org.xtext.example.mydsl.jvmmodel
 
 import com.google.inject.Inject
+import java.util.List
+import org.eclipse.emf.common.util.EList
 import org.eclipse.xtext.common.types.JvmOperation
 import org.eclipse.xtext.naming.IQualifiedNameProvider
-import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.jvmmodel.AbstractModelInferrer
 import org.eclipse.xtext.xbase.jvmmodel.IJvmDeclaredTypeAcceptor
-import org.eclipse.xtext.xbase.jvmmodel.JvmTypesBuilder
 import org.xtext.example.mydsl.myDsl.Action
-import org.xtext.example.mydsl.myDsl.PrepareDeclaraion
+import org.xtext.example.mydsl.myDsl.PropRef
 import org.xtext.example.mydsl.myDsl.SuiteDeclaration
 import org.xtext.example.mydsl.myDsl.TestDefinition
-import org.eclipse.xtext.xbase.compiler.XbaseCompiler
-import org.eclipse.xtext.common.types.JvmMember
-import org.eclipse.xtext.common.types.JvmVisibility
+import org.xtext.example.mydsl.myDsl.UIElement
+import org.xtext.example.mydsl.myDsl.InitBody
 
 /**
  * <p>Infers a JVM model from the source model.</p> 
@@ -30,7 +29,7 @@ class MyDslJvmModelInferrer extends AbstractModelInferrer {
 	/**
 	 * convenience API to build and initialize JVM types and their members.
 	 */
-	@Inject extension JvmTypesBuilder
+	@Inject extension MyJvmTypesBuilder
 
 	@Inject extension IQualifiedNameProvider
 
@@ -39,22 +38,15 @@ class MyDslJvmModelInferrer extends AbstractModelInferrer {
 		acceptor.accept(suite.toClass(suite.fullyQualifiedName)) [
 			abstract = false
 			packageName = suite.eContainer.fullyQualifiedName.toString
-
 			members += suite.toMethod("beforeSuite", void.typeRef) [
 				static = true
 				annotations += annotationRef("org.junit.BeforeClass");
-				val actions = suite.beforeActions
-//				for (Action action : actions) {
-//				}
-
-				body = '''
-				'''
-//				JvmTypesBuilder.
+				body = suite.beforeSuite
 			]
 
 			members += suite.toMethod("beforeTest", void.typeRef) [
 				annotations += annotationRef("org.junit.Before");
-				body = ''''''
+				body = suite.prepare.before ;
 			]
 
 			for (TestDefinition test : suite.prepare.testCases) {
@@ -63,34 +55,30 @@ class MyDslJvmModelInferrer extends AbstractModelInferrer {
 
 			members += suite.toMethod("afterTest", void.typeRef) [
 				annotations += annotationRef("org.junit.After");
-				body = ''''''
+				body =  ''''''
 			]
-
-			members += suite.toMethod("afterSuite", typeRef(void)) [
-				static = true
-				annotations += annotationRef("org.junit.AfterClass");
-				body = '''
-«««					«FOR a : suite.afterActions»
-«««						new «a.type.fullyQualifiedName » ;
-«««					«ENDFOR»
-				'''
-			]
+//
+//			members += suite.toMethod("afterSuite", typeRef(void)) [
+//				static = true
+//				annotations += annotationRef("org.junit.AfterClass");
+//				body = '''
+//				'''
+//			]
 		]
 	}
 
 	def JvmOperation createTestMethod(TestDefinition test) {
 		test.toMethod(test.name, typeRef(void)) [
 			annotations += annotationRef("org.junit.Test");
-			body = test.block
+			body = test.body
 		]
 	}
-
 	def dispatch void infer(TestDefinition testCase, IJvmDeclaredTypeAcceptor acceptor, boolean isPreIndexingPhase) {
 		testCase.toMethod(testCase.name + "Test", typeRef(void)) [
 			annotations += annotationRef("org.junit.Test");
+			body = '''Mansour123TestDef'''
 		]
 	}
-//
-//	def XExpression translate(Action action) {
-//	}
+
+
 }

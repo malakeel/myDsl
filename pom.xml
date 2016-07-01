@@ -17,7 +17,7 @@
 		<module>org.xtext.example.mydsl</module>
 		<module>org.xtext.example.mydsl.ide</module>
 		<module>org.xtext.example.mydsl.ui</module>
-		<module>org.xtext.example.mydsl.web</module>
+<!-- 		<module>org.xtext.example.mydsl.web</module> -->
 		<module>org.xtext.example.mydsl.target</module>
 		<module>org.xtext.example.mydsl.tests</module>
 		<module>org.xtext.example.mydsl.ui.tests</module>

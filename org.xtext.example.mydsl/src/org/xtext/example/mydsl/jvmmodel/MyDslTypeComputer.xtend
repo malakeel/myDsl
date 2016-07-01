@@ -1,11 +1,11 @@
 package org.xtext.example.mydsl.jvmmodel
 
-import org.eclipse.xtext.xbase.typesystem.computation.XbaseTypeComputer
-import org.eclipse.xtext.xbase.XExpression
 import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputationState
+import org.eclipse.xtext.xbase.typesystem.computation.XbaseTypeComputer
 import org.eclipse.xtext.xbase.typesystem.conformance.ConformanceFlags
-import org.xtext.example.mydsl.myDsl.UIElement
 import org.xtext.example.mydsl.myDsl.Action
+import org.xtext.example.mydsl.myDsl.UIElement
+import org.eclipse.xtext.xbase.XExpression
 
 class MyDslTypeComputer extends XbaseTypeComputer {
 
@@ -18,19 +18,26 @@ class MyDslTypeComputer extends XbaseTypeComputer {
 	}
 
 	protected def void _computeTypes(Action action, ITypeComputationState state) {
-		for (t : action.config.targets) {
-			println("TODO better logic here ?!?")
-			val iaction = state.getReferenceOwner().getServices().getTypeReferences().findDeclaredType(
-				"org.example.ILocator", state.referenceOwner.contextResourceSet)
-			state.withExpectation(
-				state.referenceOwner.newParameterizedTypeReference(iaction)
-			).computeTypes(t.block)
-		}
+		
+		val iaction = state.getReferenceOwner().getServices().getTypeReferences().findDeclaredType(
+			"org.example.IAction", state.referenceOwner.contextResourceSet)
+		state.withExpectation(
+			state.referenceOwner.newParameterizedTypeReference(iaction)
+		).computeTypes((iaction as Action))
 		state.acceptActualType(getTypeForName(Void.TYPE, state), ConformanceFlags.CHECKED_SUCCESS)
+		
 	}
 
-//	 def dispatch computeTypes(UIElement literal, ITypeComputationState state) {
-//        state.withNonVoidExpectation.computeTypes(literal.obj)
-//        state.acceptActualType(getPrimitiveVoid(state))
-//    }
+//	def dispatch void computeTypes(UIElement el, ITypeComputationState state) {
+//
+//		val ilocator = state.getReferenceOwner().getServices().getTypeReferences().findDeclaredType(
+//			"org.example.ILocator", state.referenceOwner.contextResourceSet)
+//
+//		state.withExpectation(
+//			state.referenceOwner.newParameterizedTypeReference(ilocator)
+//		).computeTypes((ilocator as UIElement).ref)
+//
+//		state.acceptActualType(getTypeForName(Void.TYPE, state), ConformanceFlags.CHECKED_SUCCESS)
+//	}
+
 }

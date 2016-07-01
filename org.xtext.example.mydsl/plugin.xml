@@ -2,8 +2,9 @@
 <?eclipse version="3.0"?>
 <plugin>
 	<extension point="org.eclipse.emf.ecore.generated_package">
+			<!--uri = "http://www.xtext.org/example/mydsl/MyDsl" -->
 		<package 
-			uri = "http://www.xtext.org/example/mydsl/MyDsl"
+			uri = "http://www.citynix.com/ns/drosera"
 			class = "org.xtext.example.mydsl.myDsl.MyDslPackage"
 			genModel = "model/generated/MyDsl.genmodel" />
 	</extension>

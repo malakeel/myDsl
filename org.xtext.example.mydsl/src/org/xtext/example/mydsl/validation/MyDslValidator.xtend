@@ -47,10 +47,8 @@ class MyDslValidator extends AbstractMyDslValidator {
 		val con = workspace.getFile(new org.eclipse.core.runtime.Path(configPath.toString))
 
 		val msg = "File does not exist"
-		println("checking the path " + configPath + "")
 
 		if (!con.exists) {
-			println("not found " + configPath)
 			error(msg, MyDslPackage.Literals.CONFIG_FILE__FILE, "some issue")
 		}
 	}
