@@ -18,26 +18,17 @@ class MyDslTypeComputer extends XbaseTypeComputer {
 	}
 
 	protected def void _computeTypes(Action action, ITypeComputationState state) {
-		
-		val iaction = state.getReferenceOwner().getServices().getTypeReferences().findDeclaredType(
-			"org.example.IAction", state.referenceOwner.contextResourceSet)
-		state.withExpectation(
-			state.referenceOwner.newParameterizedTypeReference(iaction)
-		).computeTypes((iaction as Action))
-		state.acceptActualType(getTypeForName(Void.TYPE, state), ConformanceFlags.CHECKED_SUCCESS)
-		
-	}
+		for (t : action.args.targets) {
+			println("TODO better logic here ?!?")
 
-//	def dispatch void computeTypes(UIElement el, ITypeComputationState state) {
-//
-//		val ilocator = state.getReferenceOwner().getServices().getTypeReferences().findDeclaredType(
-//			"org.example.ILocator", state.referenceOwner.contextResourceSet)
-//
-//		state.withExpectation(
-//			state.referenceOwner.newParameterizedTypeReference(ilocator)
-//		).computeTypes((ilocator as UIElement).ref)
-//
-//		state.acceptActualType(getTypeForName(Void.TYPE, state), ConformanceFlags.CHECKED_SUCCESS)
-//	}
+			val iaction = state.getReferenceOwner().getServices().getTypeReferences().findDeclaredType(
+				"org.example.ILocator", state.referenceOwner.contextResourceSet)
+			state.withExpectation(
+				state.referenceOwner.newParameterizedTypeReference(iaction)
+			).computeTypes(t.block)
+		}
+		state.acceptActualType(getTypeForName(Void.TYPE, state), ConformanceFlags.CHECKED_SUCCESS)
+
+	}
 
 }
