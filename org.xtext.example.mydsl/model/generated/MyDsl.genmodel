@@ -33,34 +33,26 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//Arguments/targets"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//Arguments/data"/>
     </genClasses>
-    <genClasses ecoreClass="MyDsl.ecore#//UIElement">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//UIElement/block"/>
-    </genClasses>
-    <genClasses ecoreClass="MyDsl.ecore#//PropRef">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyDsl.ecore#//PropRef/ns"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyDsl.ecore#//PropRef/prop"/>
-    </genClasses>
     <genClasses ecoreClass="MyDsl.ecore#//Files">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//Files/files"/>
     </genClasses>
     <genClasses ecoreClass="MyDsl.ecore#//ConfigFile">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyDsl.ecore#//ConfigFile/file"/>
     </genClasses>
-    <genClasses ecoreClass="MyDsl.ecore#//InitBody">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//InitBody/handlers"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//InitBody/actions"/>
-    </genClasses>
-    <genClasses ecoreClass="MyDsl.ecore#//TestBody">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//TestBody/actions"/>
-    </genClasses>
+    <genClasses ecoreClass="MyDsl.ecore#//InitBody"/>
     <genClasses ecoreClass="MyDsl.ecore#//EventHandler">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//EventHandler/type"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//EventHandler/conj"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//EventHandler/handler"/>
     </genClasses>
+    <genClasses ecoreClass="MyDsl.ecore#//TestBody"/>
     <genClasses ecoreClass="MyDsl.ecore#//Action">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//Action/type"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference MyDsl.ecore#//Action/args"/>
+    </genClasses>
+    <genClasses ecoreClass="MyDsl.ecore#//PropRef">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyDsl.ecore#//PropRef/ns"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyDsl.ecore#//PropRef/prop"/>
     </genClasses>
     <genClasses ecoreClass="MyDsl.ecore#//ConjunctionExpression">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute MyDsl.ecore#//ConjunctionExpression/pos"/>

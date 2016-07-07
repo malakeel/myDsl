@@ -14,8 +14,8 @@ import org.xtext.example.mydsl.myDsl.Action
 import org.xtext.example.mydsl.myDsl.PropRef
 import org.xtext.example.mydsl.myDsl.SuiteDeclaration
 import org.xtext.example.mydsl.myDsl.TestDefinition
-import org.xtext.example.mydsl.myDsl.UIElement
 import org.xtext.example.mydsl.myDsl.InitBody
+import org.eclipse.xtext.common.types.JvmVisibility
 
 /**
  * <p>Infers a JVM model from the source model.</p> 
@@ -38,6 +38,12 @@ class MyDslJvmModelInferrer extends AbstractModelInferrer {
 		acceptor.accept(suite.toClass(suite.fullyQualifiedName)) [
 			abstract = false
 			packageName = suite.eContainer.fullyQualifiedName.toString
+			
+			members += suite.toField("ctx" ,  typeRef("org.example.testing.MyContextManager"))[
+				
+				visibility = JvmVisibility.PRIVATE
+			]
+			
 			members += suite.toMethod("beforeSuite", void.typeRef) [
 				static = true
 				annotations += annotationRef("org.junit.BeforeClass");

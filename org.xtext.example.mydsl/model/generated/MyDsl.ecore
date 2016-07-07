@@ -40,17 +40,10 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Arguments">
     <eStructuralFeatures xsi:type="ecore:EReference" name="targets" upperBound="-1"
-        eType="#//UIElement" containment="true"/>
+        eType="ecore:EClass platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression"
+        containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="data" upperBound="-1" eType="ecore:EClass platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression"
         containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="UIElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="block" eType="ecore:EClass platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression"
-        containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="PropRef" eSuperTypes="platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ns" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="prop" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Files">
     <eStructuralFeatures xsi:type="ecore:EReference" name="files" upperBound="-1"
@@ -59,19 +52,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="ConfigFile">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="file" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="InitBody" eSuperTypes="platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore#//XBlockExpression">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="handlers" upperBound="-1"
-        eType="ecore:EClass platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression"
-        containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="actions" upperBound="-1"
-        eType="ecore:EClass platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression"
-        containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="TestBody" eSuperTypes="platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore#//XBlockExpression">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="actions" upperBound="-1"
-        eType="ecore:EClass platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression"
-        containment="true"/>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InitBody" eSuperTypes="platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore#//XBlockExpression"/>
   <eClassifiers xsi:type="ecore:EClass" name="EventHandler" eSuperTypes="platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression">
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass platform:/resource/org.eclipse.xtext.common.types/model/JavaVMTypes.ecore#//JvmTypeReference"
         containment="true"/>
@@ -80,11 +61,16 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="handler" eType="ecore:EClass platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression"
         containment="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TestBody" eSuperTypes="platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore#//XBlockExpression"/>
   <eClassifiers xsi:type="ecore:EClass" name="Action" eSuperTypes="platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression">
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="ecore:EClass platform:/resource/org.eclipse.xtext.common.types/model/JavaVMTypes.ecore#//JvmTypeReference"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="args" eType="#//Arguments"
         containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PropRef" eSuperTypes="platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ns" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="prop" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ConjunctionExpression" eSuperTypes="platform:/resource/org.eclipse.xtext.xbase/model/Xbase.ecore#//XExpression">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="pos" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

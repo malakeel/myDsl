@@ -1,0 +1,89 @@
+grammar org.xtext.example.mydsl.MyDsl with
+//
+//org.eclipse.xtext.xbase.Xtype
+org.eclipse.xtext.xbase.Xbase
+
+import "http://www.eclipse.org/xtext/common/JavaVMTypes" as jvmTypes
+import "http://www.eclipse.org/xtext/xbase/Xbase" as xbase
+
+//import "http://www.eclipse.org/xtext/xbase/Xtype" as xtypes
+//import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+//
+//
+generate myDsl "http://www.xtext.org/example/mydsl/MyDsl"
+
+Domainmodel:
+//	moduleName=ModuleDeclaration
+	"package" name=QualifiedName ";" //
+	importSection=XImportSection? //
+	suite=SuiteDeclaration;
+
+SuiteDeclaration:
+	'suite' name=ValidID ('using' '(' configFiles=Files ')')? '{' //
+	//	handlers+=EventHandlerDefinition* //
+	beforeActions+=Action* //
+	prepare=PrepareDeclaraion //
+	afterActions+=(Action)* '}';
+
+PrepareDeclaraion:
+	'prepare' ('using' '(' configFiles=Files ')')? '{' //
+	//	handlers+=EventHandlerDefinition* //
+	beforeActions+=Action* //
+	testCases+=TestDefinition+ //
+	afterActions+=Action* '}';
+
+TestDefinition:
+	"test" name=ValidID ('using' '(' configFiles=Files ')')? '{' block=TestBlock '}';
+
+TestBlock returns xbase::XBlockExpression:
+	{TestBlock} expressions+=Action+;
+
+Action returns xbase::XExpression:
+	{Action}  type=JvmTypeReference config=ActionConfiguration ";";
+
+ActionConfiguration:
+	{ActionConfiguration} targets+=(UIElement)* (":" data+=Datum+)?;
+
+UIElement:
+	{UIElement} block=XExpression;
+
+Datum:
+	content=PropertyRef | Value;
+
+PropertyRef:
+	NAMESPACE ":" QualifiedName;
+
+Value:
+	value=(Number | STRING);
+
+NAMESPACE:
+	ID;
+
+/*A list of comma separated files ending with xml, properties) */
+Files:
+	files+=ConfigFile ("," files+=ConfigFile)*;
+
+ConfigFile:
+	file=FileName;
+
+FileName:
+	(ID | INT) "." ("xml" | "properties");
+	//	('a'..'z' | 'A'..'Z' | '_' | '0'..'9')* "." ("xml" | "properties" | "data");
+//EventHandlerDefinition:
+//	{EventHandlerDefinition} "On" ConditionExpression Action ";";
+ConditionExpression:
+	ConditionCircuimstance;
+
+ConditionCircuimstance:
+	"blank";
+
+	//terminal DIGIT:
+//	'0'..'9';
+//
+//terminal CHAR:
+//	('a'..'z');
+//
+//terminal NEWLINE: // New line on DOS or Unix 
+//	'\r'? '\n';
+
+    

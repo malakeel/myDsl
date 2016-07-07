@@ -4,7 +4,6 @@ import org.eclipse.xtext.xbase.typesystem.computation.ITypeComputationState
 import org.eclipse.xtext.xbase.typesystem.computation.XbaseTypeComputer
 import org.eclipse.xtext.xbase.typesystem.conformance.ConformanceFlags
 import org.xtext.example.mydsl.myDsl.Action
-import org.xtext.example.mydsl.myDsl.UIElement
 import org.eclipse.xtext.xbase.XExpression
 
 class MyDslTypeComputer extends XbaseTypeComputer {
@@ -25,7 +24,7 @@ class MyDslTypeComputer extends XbaseTypeComputer {
 				"org.example.ILocator", state.referenceOwner.contextResourceSet)
 			state.withExpectation(
 				state.referenceOwner.newParameterizedTypeReference(iaction)
-			).computeTypes(t.block)
+			).computeTypes(t)
 		}
 		state.acceptActualType(getTypeForName(Void.TYPE, state), ConformanceFlags.CHECKED_SUCCESS)
 

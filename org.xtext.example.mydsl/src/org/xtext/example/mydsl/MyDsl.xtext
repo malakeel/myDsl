@@ -26,17 +26,11 @@ PrepareDeclaraion:
 
 InitBody returns xbase::XBlockExpression:
 	{InitBody} //
-	handlers+=EventHandler* //
-	actions+=Action*;
+	expressions+=EventHandler* //
+	expressions+=Action*;
 
 TestDefinition:
 	"test" name=ValidID ('using' '(' configFiles=Files ')')? '{' body=TestBody '}';
-
-TestBody returns xbase::XBlockExpression:
-	{TestBody} //
-	actions+=Action+;
-	//	"then" //
-//	validations+=Validation+;
 
 EventHandler returns xbase::XExpression:
 	{EventHandler} "On" type=JvmTypeReference conj=ConjunctionExpression "=>" handler=Action ";";
@@ -47,27 +41,32 @@ EventHandler returns xbase::XExpression:
 //Validation returns xbase::XExpression:
 //	{Validation} type=JvmTypeReference args=Arguments ";";
 
-Arguments:
-	{Arguments} targets+=(UIElement)* (":" data+=Datum+)?;
+TestBody returns xbase::XBlockExpression:
+	{TestBody} //
+	expressions+=Action+;
 
 Action returns xbase::XExpression:
 	{Action} type=JvmTypeReference args=Arguments ";";
+ 
+Arguments:
+	{Arguments} targets+=(UIElement)* (":" data+=Datum+)?;
 
-UIElement : //;returns xbase::XExpression:
-	{UIElement} block=XExpression;
+UIElement returns xbase::XExpression:
+	XExpression;
 
 Datum returns xbase::XExpression:
-	 XLiteral | PropRef;
+//	{xbase::XExpression}
+//	value=
+	(XLiteral | PropRef);
+
+PropRef returns xbase::XExpression:
+	{PropRef} ns=NS ":" prop=QualifiedName;
 
 ConjunctionExpression returns xbase::XExpression:
 	{ConjunctionExpression} pos=("after" | "before");
 
-PropRef:
-	ns=NS ":" prop=QualifiedName;
-
-//Value :
+	//Value :
 //	{Value} Xbase::XNumberLiteral | Xbase::XStringLiteral;
-
 NS:
 	ID;
 
